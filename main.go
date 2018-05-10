@@ -1,6 +1,10 @@
 package main
 
 import (
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 )
 
@@ -23,7 +27,24 @@ var whatChaDoingCmd = []string{"whatchaDoin"}
 
 // const whatChaDoingPythoinCmd = []string{"python", "-u", "watcher.py"}
 
+var logName = `hueplay.log`
+
 func main() {
+	f, err := os.OpenFile(logName, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0700)
+	if err != nil {
+		log.Fatalf("I couldn't open the log file :-( :%v", err)
+	}
+	log.SetOutput(f)
+
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+
+	go func() {
+		<-sigs
+		f.Close()
+		os.Exit(0)
+	}()
+
 	events := make(chan Event)
 	go checkBack(events, false)
 	go pollWhatchadDoin(events)
