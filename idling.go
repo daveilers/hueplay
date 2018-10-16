@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func checkBack(c chan Event, wasIdle bool) {
+func checkIdle(c chan Event, wasIdle bool) {
 	i, err := idleTime()
 	if err != nil {
 		log.Printf("Dave broke the idle checker: %v", err)
@@ -20,14 +20,14 @@ func checkBack(c chan Event, wasIdle bool) {
 			c <- Idle
 		}
 		<-time.After(minIdleCheck)
-		checkBack(c, true)
+		checkIdle(c, true)
 	} else {
 		if wasIdle {
-			log.Printf("Woke: You've been idle for %v", i)
+			log.Printf("Active: You've been idle for %v", i)
 			c <- Active
 		}
 		<-time.After(idleTimeOut - i)
-		checkBack(c, false)
+		checkIdle(c, false)
 	}
 }
 

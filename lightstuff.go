@@ -89,7 +89,7 @@ func doSomething(l *hue.Light) {
 func color(l []*hue.Light) []*hue.Light {
 	cl := []*hue.Light{}
 	for _, light := range l {
-		if light.State.ColorMode == "hs" {
+		if light.State.ColorMode != "" {
 			cl = append(cl, light)
 		}
 	}
@@ -108,14 +108,7 @@ func getLights() []*hue.Light {
 	return l
 }
 
-func listLights() {
-	b := getBridge()
-	ls := b.Lights()
-
-	ll, err := ls.List()
-	if err != nil {
-		log.Fatalln(err)
-	}
+func listLights(ll []*hue.Light) {
 	for i, l := range ll {
 		log.Printf("%v, %+v\n", i, l)
 	}

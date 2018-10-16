@@ -22,6 +22,7 @@ func handleEvents(events chan Event) {
 	l := getLights()
 	cl := color(l)
 	turnEmOn(l)
+	listLights(l)
 
 	d := DaveState{Awake: true, Active: true, Working: true}
 	for e := range events {

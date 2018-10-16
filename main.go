@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"os"
 	"os/signal"
@@ -29,7 +30,11 @@ var whatChaDoingCmd = []string{"whatchaDoin"}
 
 var logName = `hueplay.log`
 
+var enableIdleCheck = flag.Bool("i", false, "if true dim on idle")
+var enableApplicationCheck = flag.Bool("a", false, "if true change color based on applications used")
+
 func main() {
+	flag.Parse()
 	f, err := os.OpenFile(logName, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0700)
 	if err != nil {
 		log.Fatalf("I couldn't open the log file :-( :%v", err)
@@ -46,8 +51,12 @@ func main() {
 	}()
 
 	events := make(chan Event)
-	go checkBack(events, false)
-	go pollWhatchadDoin(events)
+	if *enableIdleCheck {
+		go checkIdle(events, false)
+	}
+	if *enableApplicationCheck {
+		go pollWhatchadDoin(events)
+	}
 	go sleepMonitor(events)
 	handleEvents(events)
 }
