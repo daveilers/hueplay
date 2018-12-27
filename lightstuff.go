@@ -5,6 +5,8 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/kelseyhightower/envconfig"
+
 	"gbbr.io/hue"
 )
 
@@ -104,8 +106,30 @@ func getLights() []*hue.Light {
 	if err != nil {
 		log.Fatalln(err)
 	}
-
+	l = ignoreLights(l)
 	return l
+}
+
+func ignoreLights(lights []*hue.Light) []*hue.Light {
+	var igs = &ignorecfg{}
+	envconfig.MustProcess("", igs)
+	// fmt.Printf("%v\n", igs)
+
+	keepLights := []*hue.Light{}
+All:
+	for i, light := range lights {
+		for _, UIDToIgnore := range igs.Ignore {
+			if light.UID == UIDToIgnore {
+				continue All
+			}
+		}
+		keepLights = append(keepLights, lights[i])
+	}
+	return keepLights
+}
+
+type ignorecfg struct {
+	Ignore []string
 }
 
 func listLights(ll []*hue.Light) {

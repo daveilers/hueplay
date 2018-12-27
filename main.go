@@ -7,6 +7,8 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	_ "github.com/joho/godotenv/autoload"
 )
 
 var notWork = map[string]bool{
@@ -31,6 +33,7 @@ var whatChaDoingCmd = []string{"whatchaDoin"}
 var logName = `hueplay.log`
 
 var enableIdleCheck = flag.Bool("i", false, "if true dim on idle")
+var enableLightControl = flag.Bool("l", false, "if true control lights")
 var enableApplicationCheck = flag.Bool("a", false, "if true change color based on applications used")
 
 func main() {

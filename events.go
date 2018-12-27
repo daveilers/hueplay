@@ -1,5 +1,7 @@
 package main
 
+import "gbbr.io/hue"
+
 type Event int
 
 const (
@@ -20,6 +22,9 @@ type DaveState struct {
 
 func handleEvents(events chan Event) {
 	l := getLights()
+	if !*enableLightControl {
+		l = []*hue.Light{}
+	}
 	cl := color(l)
 	turnEmOn(l)
 	listLights(l)
