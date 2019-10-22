@@ -34,11 +34,11 @@ func handleEvents(events chan Event) {
 		switch e {
 		case Awake:
 			d.Awake = true
-			playITunes()
+			playMusic()
 			turnEmOn(l)
 		case Asleep:
 			d.Awake = false
-			pauseITunes()
+			pauseMusic()
 			turnEmOff(l)
 		case Active:
 			if d.Awake {
