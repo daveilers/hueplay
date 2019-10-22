@@ -7,7 +7,7 @@ import (
 
 	"github.com/kelseyhightower/envconfig"
 
-	"gbbr.io/hue"
+	"github.com/gbbr/hue"
 )
 
 // func workingHours(t time.Time) bool {

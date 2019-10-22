@@ -1,6 +1,6 @@
 package main
 
-import "gbbr.io/hue"
+import "github.com/gbbr/hue"
 
 type Event int
 
