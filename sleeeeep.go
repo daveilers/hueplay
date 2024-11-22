@@ -2,15 +2,20 @@ package main
 
 import (
 	"log"
-	"os/exec"
 	"time"
 )
 
+/*
+#include <stdbool.h>
+#cgo CFLAGS: -I.
+#cgo LDFLAGS: -L. -lasleep
+#include <asleep.h>
+*/
+import "C"
+
 func asleep() bool {
-	// asleep := exec.Command(`python`, `-c`, `import sys,Quartz; d=Quartz.CGSessionCopyCurrentDictionary(); sys.exit(d and d.get("CGSSessionScreenIsLocked", 0) == 0 and d.get("kCGSSessionOnConsoleKey", 0) == 1)`)
-	asleep := exec.Command(`asleep`)
-	err := asleep.Run()
-	return err == nil
+	isAsleep := C.Asleep()
+	return isAsleep == true
 }
 
 func sleepMonitor(events chan Event) {

@@ -4,3 +4,8 @@ tplink
 hueplay.log
 .env
 *.pyc
+/libasleep.dylib
+.idea/
+.hue
+/hueplay
+/musictest

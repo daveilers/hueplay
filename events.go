@@ -21,9 +21,9 @@ type DaveState struct {
 }
 
 func handleEvents(events chan Event) {
-	l := getLights()
-	if !*enableLightControl {
-		l = []*hue.Light{}
+	l := []*hue.Light{}
+	if *enableLightControl {
+		l = getLights()
 	}
 	cl := color(l)
 	turnEmOn(l)

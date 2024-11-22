@@ -5,6 +5,7 @@
 //  Created by David Eilers on 12/4/17.
 //  Copyright © 2017 David Eilers. All rights reserved.
 //
+// exits 0 if asleep (locked or no current logged in user), 1 if awake
 
 import Foundation
 import Quartz
