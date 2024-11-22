@@ -1,5 +1,9 @@
 package main
 
+//go:generate swiftc asleepc/asleep.swift -emit-library
+
+// then move to loadable location like ~/
+
 import (
 	"log"
 	"time"
